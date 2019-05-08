@@ -20,3 +20,4 @@ RUN mkdir -p /home/build    && \
 
 FROM centos:7
 COPY --from=builder /home/python /usr/local/
+RUN python3 -m pip install --upgrade pip

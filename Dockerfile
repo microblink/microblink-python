@@ -12,12 +12,15 @@ RUN mkdir -p /home/build    && \
     tar xf python.tar.gz    && \
     mkdir python-build      && \
     pushd python-build      && \
-    ../Python-${PYTHON_VERSION}/configure --prefix=/home/python --with-lto --enable-shared --enable-optimizations  && \
+    ../Python-${PYTHON_VERSION}/configure --prefix=/usr/local --with-lto --enable-shared --enable-optimizations  && \
     make -j $(nproc)        && \
     make install            && \
     popd;   \
     rm -rf *
 
 FROM centos:7
-COPY --from=builder /home/python /usr/local/
-RUN python3 -m pip install --upgrade pip
+COPY --from=builder /usr/local /usr/local/
+
+ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
+
+RUN python3 -m pip install --upgrade pip virtualenv

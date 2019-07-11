@@ -1,6 +1,6 @@
 FROM centos:7 as builder
 
-ARG PYTHON_VERSION=3.7.3
+ARG PYTHON_VERSION=3.7.4
 
 # install build dependencies
 RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make
@@ -23,4 +23,4 @@ COPY --from=builder /usr/local /usr/local/
 
 ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
-RUN python3 -m pip install --upgrade pip virtualenv
+RUN python3 -m pip install --upgrade pip virtualenv vex

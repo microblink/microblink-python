@@ -1,6 +1,6 @@
 FROM centos:7 as builder
 
-ARG PYTHON_VERSION=3.8.0
+ARG PYTHON_VERSION=3.8.3
 
 # install build dependencies
 RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make

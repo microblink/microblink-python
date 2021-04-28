@@ -3,7 +3,7 @@ FROM centos:7 as builder
 ARG PYTHON_VERSION=3.8.3
 
 # install build dependencies
-RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make
+RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make xz-devel
 
 # build Python from source
 RUN mkdir -p /home/build    && \
@@ -14,11 +14,12 @@ RUN mkdir -p /home/build    && \
     pushd python-build      && \
     ../Python-${PYTHON_VERSION}/configure --prefix=/usr/local --with-lto --enable-shared --enable-optimizations  && \
     make -j $(nproc)        && \
-    make install            && \
+    make install         && \
     popd;   \
     rm -rf *
 
 FROM centos:7
+COPY --from=builder /usr/local /usr/local/
 COPY --from=builder /usr/local /usr/local/
 
 ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"

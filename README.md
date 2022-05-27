@@ -1,2 +1,2 @@
 # centos-python
-Dockerfiles for creating Centos7 image with latest version of python
+Dockerfiles for creating Amazonlinux 2 image with latest version of python

@@ -14,7 +14,7 @@ RUN mkdir -p /home/build    && \
     tar xf python.tar.gz    && \
     mkdir python-build      && \
     pushd python-build      && \
-    ../Python-${PYTHON_VERSION}/configure --prefix=/usr/local --with-lto --enable-shared --enable-optimizations  && \
+    ../Python-${PYTHON_VERSION}/configure --prefix=/usr/local  --with-lto --enable-shared LDFLAGS=-Wl,-rpath,/usr/local/lib --enable-optimizations  && \
     make -j $(nproc)        && \
     make install         && \
     popd;   \
@@ -26,7 +26,5 @@ COPY --from=builder /usr/local /usr/local/
 
 # openssl11 is required for python3 to work
 RUN yum -y update && yum -y install openssl11
-
-ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
 RUN python3 -m pip install --upgrade pip virtualenv vex

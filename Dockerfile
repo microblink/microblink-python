@@ -1,9 +1,11 @@
-FROM centos:7 as builder
+FROM amazonlinux:2 as builder
 
-ARG PYTHON_VERSION=3.8.3
+ARG PYTHON_VERSION=3.10.4
 
 # install build dependencies
-RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make xz-devel
+RUN yum update -y
+RUN yum groupinstall "Development Tools" -y
+RUN yum -y install gcc openssl11-devel bzip2-devel libffi-devel sqlite-devel make xz-devel tar libffi-devel bzip2-devel wget
 
 # build Python from source
 RUN mkdir -p /home/build    && \
@@ -18,9 +20,12 @@ RUN mkdir -p /home/build    && \
     popd;   \
     rm -rf *
 
-FROM centos:7
+FROM amazonlinux:2
+
 COPY --from=builder /usr/local /usr/local/
-COPY --from=builder /usr/local /usr/local/
+
+# openssl11 is required for python3 to work
+RUN yum -y update && yum -y install openssl11
 
 ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 

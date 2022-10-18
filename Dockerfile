@@ -1,6 +1,6 @@
 FROM amazonlinux:2 as builder
 
-ARG PYTHON_VERSION=3.10.6
+ARG PYTHON_VERSION=3.10.8
 
 # install build dependencies
 RUN yum update -y

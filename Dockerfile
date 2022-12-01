@@ -1,11 +1,11 @@
-FROM amazonlinux:2 as builder
+FROM amazonlinux:2022 as builder
 
-ARG PYTHON_VERSION=3.10.8
+ARG PYTHON_VERSION=3.11.0
 
 # install build dependencies
 RUN yum update -y
 RUN yum groupinstall "Development Tools" -y
-RUN yum -y install gcc openssl11-devel bzip2-devel libffi-devel sqlite-devel make xz-devel tar libffi-devel bzip2-devel wget
+RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make xz-devel tar libffi-devel wget
 
 # build Python from source
 RUN mkdir -p /home/build    && \
@@ -20,11 +20,11 @@ RUN mkdir -p /home/build    && \
     popd;   \
     rm -rf *
 
-FROM amazonlinux:2
+FROM amazonlinux:2022
 
 COPY --from=builder /usr/local /usr/local/
 
-# openssl11 is required for python3 to work
-RUN yum -y update && yum -y install openssl11
+# openssl is required for python3 to work
+RUN yum -y update && yum -y install openssl
 
 RUN python3 -m pip install --upgrade pip virtualenv vex

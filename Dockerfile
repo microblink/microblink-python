@@ -1,11 +1,11 @@
 FROM amazonlinux:2022 as builder
 
-ARG PYTHON_VERSION=3.11.0
+ARG PYTHON_VERSION=3.11.3
 
 # install build dependencies
 RUN yum update -y
 RUN yum groupinstall "Development Tools" -y
-RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make xz-devel tar libffi-devel wget
+RUN yum -y install gcc openssl-devel bzip2-devel libffi-devel sqlite-devel make xz-devel tar libffi-devel wget glibc-langpack-en
 
 # build Python from source
 RUN mkdir -p /home/build    && \

@@ -1,2 +1,3 @@
-# centos-python
-Dockerfiles for creating Amazonlinux 2 image with latest version of python
+# microblink-python
+
+Dockerfiles for creating image with latest version of python.

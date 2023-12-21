@@ -27,4 +27,5 @@ COPY --from=builder /usr/local /usr/local/
 # remove ubuntu's built-in old python and install openssl as it's required for python to work
 RUN apt update && apt remove -y python3 && apt install -y openssl
 
-RUN python3 -m pip install --upgrade pip virtualenv vex
+RUN ln -s /usr/local/bin/python3 /usr/local/bin/python
+RUN python -m pip install --upgrade pip virtualenv vex
